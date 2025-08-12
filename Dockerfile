@@ -1,23 +1,22 @@
+# Use an official Python image
+FROM python:3.11-slim
 
-# Use Python base image
-FROM python:3.10-slim
-
-# Set working directory
+# Set working directory inside container
 WORKDIR /app
 
-# Copy requirements.txt first for caching
-COPY requirements.txt .
+# Copy requirements first (better for caching)
+COPY requirements.txt /app/
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy rest of the project
-COPY . .
+# Copy all project files
+COPY . /app/
 
-# Expose port
+# Expose port 8000 for Django
 EXPOSE 8000
 
 # Run Django server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "project/manage.py", "runserver", "0.0.0.0:8000"]
 
 
